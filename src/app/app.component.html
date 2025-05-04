@@ -5,6 +5,72 @@
 
 <div>
     <p [style]="backcolor">Hellooo</p>
+</div>
+<div>
+  <h2 [class.textColor]="isTextRed == 'yes' ">Good Morning</h2>
+</div>
+<div>
 
+  <button (click)="incrementNumber()">Increment</button>
+  <p>Count: {{ count }}</p>
+
+  <input (input)="OnInputChange($event)" placeholder="Type here..." />
+  <p>You typed: {{ inputValue }}</p>
+  
+
+  <button (dblclick)="onDoubleClick()">Double Click</button>
 
 </div>
+
+<div 
+  style="padding: 10px; border: 1px solid #333; display: inline-block;"
+  (mousedown)="onMouseDown()"
+  (mouseup)="onMouseUp()"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()">
+  Hover and click me
+  
+  <p>{{mouseStatus}}</p>
+</div>
+
+<!-- Keyboard Events -->
+<input 
+  (keydown)="onKeyDown($event)" 
+  (keyup)="onKeyUp($event)" 
+  placeholder="Type something..." />
+<p>{{ key }}</p>
+
+<!-- Input, Change, Focus, Blur -->
+<input 
+  
+  (change)="onChange($event)"
+  (focus)="onFocus()" 
+  (blur)="onBlur()" 
+  placeholder="Focus me!" />
+<p>Typed: {{ inputValue }}</p>
+<p>{{ focusStatus }}</p>
+<!-- Scrollable area -->
+<div 
+  style="width: 200px; height: 100px; overflow-y: scroll; border: 1px solid #ccc;" 
+  (scroll)="onScroll($event)">
+  <p style="height: 300px;">Scroll inside this box</p>
+</div>
+
+<!-- Window Resize -->
+<!-- <p>Window Width: {{ windowWidth }}</p> -->
+
+<!-- Drag and Drop -->
+<div 
+  draggable="true" 
+  (dragstart)="onDragStart($event)" 
+  style="width: 150px; background: lightblue; padding: 5px; margin: 10px;">
+  Drag me
+</div>
+
+<div 
+  (drop)="onDrop($event)" 
+  (dragover)="onDragOver($event)" 
+  style="width: 200px; height: 100px; border: 2px dashed gray; display: flex; align-items: center; justify-content: center;">
+  Drop here
+</div>
+<p>Dropped Content: {{ droppedData }}</p>
