@@ -1,3 +1,17 @@
-.textColor{
+.textColors{
     color: red;
+}
+
+.danger{
+    background-color: blanchedalmond;
+    color: red;
+}
+
+.text-size{
+    font-size: 35px;
+}
+.box-color{
+    height: 100px;
+    width: 100px;
+    background-color: pink;
 }

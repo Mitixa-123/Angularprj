@@ -7,7 +7,7 @@
     <p [style]="backcolor">Hellooo</p>
 </div>
 <div>
-  <h2 [class.textColor]="isTextRed == 'yes' ">Good Morning</h2>
+  <h2 [class.textColors]="isTextRed == 'yes' ">Good Morning</h2>
 </div>
 <div>
 
@@ -74,3 +74,74 @@
   Drop here
 </div>
 <p>Dropped Content: {{ droppedData }}</p>
+
+<!-- Two Way DataBinding -->
+
+<input [(ngModel)]="ChangingText" placeholder="Enter Name"/>
+<p>Your Text : {{ChangingText}}</p>
+
+<!-- ngClass -->
+
+<div [ngClass]="classes">
+  <p>{{message}}</p>
+</div>
+
+<!-- ngStyle -->
+
+<div class="box-color" [ngStyle]=" {'background-color':BoxbackColor} ">Box</div>
+
+
+<h2 style="text-align: center;">Structure Directive</h2>
+
+<!-- Structure Directive -->
+<!-- use Else -->
+<div *ngIf="IsLogging else LoggedOut">Welcome , {{username}}</div>
+<ng-template #LoggedOut>Please,Login</ng-template>
+<div *ngIf="!IsLogging">Please Login to view the content</div>
+
+  <!-- Or and  -->
+
+  <div *ngIf="IsLogging && SignIn">Login content</div>
+
+<!-- ngfor -->
+
+<ul>
+  <li *ngFor="let name of names; let i = index">{{i}} {{name}}</li>
+</ul>
+
+<!-- ngSwitch -->
+
+<div [ngSwitch]="grade">
+  <p *ngSwitchCase="'A'">Awesome</p>
+  <p *ngSwitchCase="'B'">Goos</p>
+  <p *ngSwitchDefault>Unknown</p>
+  
+</div>
+
+<!-- PIPES -->
+
+<h2 style="text-align: center;">PIPES Example</h2>
+<p>{{PipeText | uppercase}}</p>
+
+<p>Today is {{today}}</p>
+<p>Today is {{today | date}}</p>
+<p>Today is {{today | date:"fullDate"}}</p>
+<p>Today is {{today | date:"hh:mm:ss"}}</p>
+
+
+<p>{{currencyvalue | currency : "EUR" : "symbol":"2.1-4"}}</p>
+
+<!-- percent -->
+
+<p>{{currencyvalue | percent}}</p>
+
+<p>{{PipeText | append: " Custom"}}</p>
+
+<!-- dependancy Injection -->
+ {{messages}}
+
+ <p>Api Data</p>
+ <div *ngFor="let post of posts">
+    <h4>{{post.title}}</h4>
+    <p>{{post.body}}</p>
+ </div>
