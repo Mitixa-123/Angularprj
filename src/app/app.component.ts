@@ -45,10 +45,8 @@ constructor(private messageService :MessageService){
       
     });
     this.subject.next('Message before B subscribes');
-
-this.subject.subscribe(val => console.log('Late Subscriber B:', val));
-
-this.subject.next('Message after B subscribes');
+    this.subject.subscribe(val => console.log('Late Subscriber B:', val));
+    this.subject.next('Message after B subscribes');
 
 
 
