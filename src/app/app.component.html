@@ -212,3 +212,25 @@
 
   </div>
  </form>
+
+
+ <!-- Routing -->
+
+ <nav>
+	<ul>
+		<li><a routerLink="/">Home</a></li>
+		<li><a routerLink="/notes">Notes</a></li>
+
+		<li><a [routerLink]="['/notes','123']">Note 123</a></li>
+		<li><a [routerLink]="['/notes','456']">Note 456</a></li>
+
+		<li><a [routerLink]="['/notes','789']">Note 789</a></li>
+		<button><a (click)="NavigateNote()">Go to Notes</a></button>
+		<!-- Dynamic Route -->
+		<button><a (click)="NavigateNoteByIdDynamic(123)">Go to Notes 123</a></button>
+		<!-- child Routing -->
+		<li><a routerLink="/about">About</a></li>
+
+	</ul>
+ </nav>
+ <router-outlet></router-outlet>

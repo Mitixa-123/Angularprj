@@ -3,6 +3,7 @@ import { MessageService } from './services/message.service';
 import { filter, Observable, ReplaySubject, Subject } from 'rxjs';
 import { posts } from './Interfaces/posts.interface';
 import { FormArray, FormBuilder,FormGroup,Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -28,7 +29,7 @@ private observable = new Observable<string>((observer) => {
 //Reactive Form 
 userForm!:FormGroup;
 
-constructor(private messageService :MessageService,private formbuilder:FormBuilder){
+constructor(private messageService :MessageService,private formbuilder:FormBuilder,private route:Router){
   this.messages = messageService.getMessage();
   this.userForm = formbuilder.group({
     name:['',Validators.required],
@@ -68,6 +69,16 @@ submitForm(){
     
   }
 }
+
+//Routing
+NavigateNote(){
+  this.route.navigate(["/notes"]);
+}
+
+NavigateNoteByIdDynamic(id:number){
+  this.route.navigate(["/notes",id])
+}
+
 
 Add(){
     this.phonenumbers.push(
