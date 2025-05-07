@@ -146,82 +146,69 @@
     <p>{{post.body}}</p>
  </div>
 
+<!-- Component Communication Decoratives Input and Output -->
+ <app-task *ngFor="let task of tasks" [tasks]="task" (DeletedTask)="OnDeleteTask(task)">
 
- <!-- <p>
-  = Pipes : Pipes allows you to Modify your Data in your application before Displaying to the user
--Pipes are used to format, filter, and sort data and they can be used with both template-driven and reactive forms, as well as with other Angular components and services.
+ </app-task>
 
-	<> Built-In Pipes
-	<> Custom Pipes
-	<> pure Impure Pipes
 
-	* Built-In Pipes
-		* Uppercase pipe
-		* Lowercase pipe
-		* Slice pipe
-		* Currency pipe
-		* async Pipes
-		* percent pipes
-		* Date pipes
-		* Titlecase pipes
-		* json pipes
-	
-	* Custom Pipes
-		- To create Pipes ng generate pipe pipes/append
-		- after this import it into app.module.ts file and its declaration section
-		- then into pipe.ts file create a logic for pipe which we can display in html side
-		
-	* pure pipes
-		- Pure pipes are designed to be stateless, meaning that they don’t have any internal state that could affect their output.
-		- Instead, they take input data and return transformed output data. Pure pipes are also memoized, which means that if the input data hasn’t changed since the last time the pipe was called, the pipe won’t be executed again.
-		- To create a pure pipe in Angular, you need to add the pure: true option to the @Pipe decorator, like this:\
-		@Pipe({
-		name: 'myPurePipe',
-		pure: true
-		})
-	
-	* Impure pipes
-		- Impure pipes can be useful in some cases, such as when you need to perform a heavy calculation or retrieve data from an external API.
-		- Use only when you need to handle mutable data structures (like changing array contents).
-		
+ <!-- Reactive Form -->
 
-= Directives:Directives are custom HTML attributes which tell angular to change the style or behavior of the Dom elements.
+ <h1 style="text-align: center;">Reactive Form</h1>
+ <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" formControlName="name" name="name" id="name" placeholder="Enter Your Name"/>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="text" formControlName="email" name="email" id="email" placeholder="Enter Your Email"/>
+  </div>
 
-	<> Components — directives with a template.
-	<> Structural directives — change the DOM layout by adding and removing DOM elements.
-	<> Attribute directives — change the appearance or behavior of an element, component, or another directive.
-	
-	* Component Directives:(Directive With template)
-	- Directives must be declared in Angular Modules in the same manner as components.
-	
-	* Structural Directives:Structural Directives are responsible for changing the structure of the DOM. They work by adding or removing the elements from the DOM, unlike Attribute Directives which just change the element’s appearance and behavior.
-	- You can easily differentiate between the Structural and Attribute Directive by looking at the syntax. The Structural Directive’s name always starts with an asterisk(*) prefix, whereas Attribute Directive does not contain any prefix.
-	
-	- most popular structural directives:
-		NgIf,
-		NgFor,
-		NgSwitch.
-		
-	1. NgIf:It is used to create or remove a part of the DOM tree depending on a condition.
-	- The *ngIf directive moved to the <ng-template> element where it became a property binding,[ngIf]. means the else case Like this
-	
-		Example: 
-		<div *ngIf=”movie”>{{movie.name}}</div>
-		<div template=”ngIf movie”>{{movie.name}}</div>
-		<ng-template [ngIf]=”movie”>
-		<div>{{movie.name}}</div>
-		</ng-template>
-	
-	2. NgFor:It is used to customize data display. It is mainly used for displaying a list of items using repetitive loops.
-	Example:
-	<div *ngFor="let movie of movies">{{movie.name}}</div>
-	<div template="ngFor let movie of movies">{{movie.name}}</div>
-	<ng-template ngFor let-movie [ngFor]="movies">{{movie.name}}
-	</ng-template>
-	
-	3.NgSwitch:It is like the JavaScript switch. It can display one element from among several possible elements, based on a switch condition. Angular puts only the selected element into the DOM.
-	
-	* Attribute Directives:Attribute directives manipulate the DOM by changing its behavior and appearance.
-	- We use attribute directives to apply conditional style to elements, show or hide elements or dynamically change the behavior of a component according to a changing property.
-	- Angular provides many built-in Attribute Directives like NgStyle, NgClass, etc.
- </p> -->
+  <div>
+    <label>Gender:</label><br>
+  
+    <label>
+      <input type="radio" formControlName="gender" value="Male" /> Male
+    </label>
+  
+    <label>
+      <input type="radio" formControlName="gender" value="Female" /> Female
+    </label>
+  
+    <label>
+      <input type="radio" formControlName="gender" value="Other" /> Other
+    </label>
+  
+    <div *ngIf="userForm.get('gender')?.touched && userForm.get('gender')?.invalid" class="invalid-feedback">
+      Gender is required.
+    </div>
+  </div>  
+
+  <div formGroupName="address">
+    <label for="city">City:</label>
+    <input type="text" formControlName="city" name="city" id="city" placeholder="Enter Your city"/>
+    <label for="street">Street:</label>
+    <input type="text" formControlName="street" name="street" id="street" placeholder="Enter Your Street"/>
+  </div>
+
+  <div formArrayName="phonenumbers">
+      <div *ngFor="let phone of phonenumbers.controls; let n=index;">
+        <label for="phonenumbers">Phone Number: {{n+1}}</label>
+        <input type="text" [formControlName]="n"/>
+        <button type="button" (click)="Add()">Add</button>
+        <div>
+          <button type="button" (click)="Remove(n)">Remove</button>
+        </div>
+      </div>
+      <div>
+       
+      </div>
+  </div>
+
+  <div>
+   <!-- [ngStyle]="{ 'background-color': Submitbtn }"  [disabled]="!userForm.valid"-->
+    <button type="submit" >Submit</button>
+
+  </div>
+ </form>
