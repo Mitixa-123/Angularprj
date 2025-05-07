@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from './services/message.service';
-import { Observable, Subject } from 'rxjs';
+import { filter, Observable, ReplaySubject, Subject } from 'rxjs';
+import { posts } from './Interfaces/posts.interface';
+import { FormArray, FormBuilder,FormGroup,Validators } from '@angular/forms';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,24 +11,81 @@ import { Observable, Subject } from 'rxjs';
 })
 export class AppComponent implements OnInit{
 
+
+
+
 // dependancy injection
 messages:string[] = [];
-posts:any[] =[];
+posts:posts[] =[];
 private subject = new Subject<string>();
-
+private replaySuject = new ReplaySubject(2) 
 // Observable
 private observable = new Observable<string>((observer) => {
   observer.next('Hello');
   observer.complete();
 });
 
+//Reactive Form 
+userForm!:FormGroup;
 
-constructor(private messageService :MessageService){
+constructor(private messageService :MessageService,private formbuilder:FormBuilder){
   this.messages = messageService.getMessage();
-
+  this.userForm = formbuilder.group({
+    name:['',Validators.required],
+    email:['',[
+      Validators.required,
+      Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    ]],
+    gender:['',Validators.required],
+    address:this.formbuilder.group(
+      {
+        city:['',Validators.required],
+        street:['',Validators.required]
+      }
+    ),
+    phonenumbers:this.formbuilder.array([
+      this.formbuilder.control('',[
+        Validators.required,
+        Validators.pattern(/^\d+$/)
+      ])
+      
+    ]),
+    
+   
+  })
   
 }
 
+get phonenumbers()
+{
+  return this.userForm.get('phonenumbers') as FormArray
+}
+
+submitForm(){
+  if(this.userForm.valid)
+  {
+    console.log(this.userForm.value);
+    
+  }
+}
+
+Add(){
+    this.phonenumbers.push(
+      this.formbuilder.control('',[
+        Validators.required,
+        Validators.pattern(/^\d+$/)
+      ])
+    )
+}
+Remove(index:number)
+{
+  if(index>0)
+  {
+    this.phonenumbers.removeAt(index)
+
+  }
+}
+//replaysubject 
 
 
 // Both way To Fetch API DATA in 1st At the service.ts Side 
@@ -40,20 +99,69 @@ constructor(private messageService :MessageService){
 
   ngOnInit(){
     this.messageService.getpost().subscribe({
-      next:(response)=>{this.posts = response},
+      next:(response:posts[])=>
+        {
+         // this.posts = response
+        },
       error:(error)=>{console.log(error);}
       
     });
+
+    this.messageService.getLanguages().subscribe({
+      next:(languages)=>
+      {
+        console.log(languages);
+      }
+    })
+
+    this.messageService.getStudent().subscribe({
+      next:(student)=>
+      {
+        console.log(student);
+        
+      }
+    })
+    this.messageService.getOrder().subscribe({
+      next:(order)=>
+      {
+        console.log(order);
+        
+      }
+    })
+
+    this.messageService.getPrice().subscribe({
+      next:(price)=>
+      {
+        console.log(price);
+        
+      }
+    })
+    // try {
+    //   this.posts = await this.messageService.getpost();
+    // } catch (error: any) {
+    //   console.log(error);
+    // }
+    
     this.subject.next('Message before B subscribes');
-
-this.subject.subscribe(val => console.log('Late Subscriber B:', val));
-
-this.subject.next('Message after B subscribes');
+    this.subject.subscribe(val => console.log('Late Subscriber B:', val));
+    this.subject.next('Message after B subscribes');
 
 
 
     this.observable.subscribe(val => console.log('Observable Subscriber A:', val));
     this.observable.subscribe(val => console.log('Observable Subscriber B:', val));
+
+
+    //replaysubject
+    this.replaySuject.next(111)
+    this.replaySuject.next(222)
+    this.replaySuject.next(333)
+
+    this.replaySuject.subscribe(val =>  console.log(`First Subscriber ${val}`))
+    this.replaySuject.next(444);
+    this.replaySuject.subscribe(val =>  console.log(`second Subscriber ${val}`))
+
+
   }
 
 
@@ -69,6 +177,16 @@ this.subject.next('Message after B subscribes');
   key = '';
   windowWidth = window.innerWidth;
   droppedData = '';
+
+
+
+  // Component Communication
+  tasks:string[] = ['task1','task2','task3'];
+  OnDeleteTask(tasks:string)
+  {
+      this.tasks = this.tasks.filter((task)=> task !=tasks)
+  }
+
   // attr binding
 
   isDisabled:boolean = true;
@@ -80,7 +198,7 @@ this.subject.next('Message after B subscribes');
   //class Binding
 
   isTextRed:string = "yes";
-
+  Submitbtn:string = "lightblue"
   // function 
 
 

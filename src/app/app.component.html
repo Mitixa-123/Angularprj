@@ -145,3 +145,70 @@
     <h4>{{post.title}}</h4>
     <p>{{post.body}}</p>
  </div>
+
+<!-- Component Communication Decoratives Input and Output -->
+ <app-task *ngFor="let task of tasks" [tasks]="task" (DeletedTask)="OnDeleteTask(task)">
+
+ </app-task>
+
+
+ <!-- Reactive Form -->
+
+ <h1 style="text-align: center;">Reactive Form</h1>
+ <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" formControlName="name" name="name" id="name" placeholder="Enter Your Name"/>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="text" formControlName="email" name="email" id="email" placeholder="Enter Your Email"/>
+  </div>
+
+  <div>
+    <label>Gender:</label><br>
+  
+    <label>
+      <input type="radio" formControlName="gender" value="Male" /> Male
+    </label>
+  
+    <label>
+      <input type="radio" formControlName="gender" value="Female" /> Female
+    </label>
+  
+    <label>
+      <input type="radio" formControlName="gender" value="Other" /> Other
+    </label>
+  
+    <div *ngIf="userForm.get('gender')?.touched && userForm.get('gender')?.invalid" class="invalid-feedback">
+      Gender is required.
+    </div>
+  </div>  
+
+  <div formGroupName="address">
+    <label for="city">City:</label>
+    <input type="text" formControlName="city" name="city" id="city" placeholder="Enter Your city"/>
+    <label for="street">Street:</label>
+    <input type="text" formControlName="street" name="street" id="street" placeholder="Enter Your Street"/>
+  </div>
+
+  <div formArrayName="phonenumbers">
+      <div *ngFor="let phone of phonenumbers.controls; let n=index;">
+        <label for="phonenumbers">Phone Number: {{n+1}}</label>
+        <input type="text" [formControlName]="n"/>
+        <button type="button" (click)="Add()">Add</button>
+        <div>
+          <button type="button" (click)="Remove(n)">Remove</button>
+        </div>
+      </div>
+      <div>
+       
+      </div>
+  </div>
+
+  <div>
+   <!-- [ngStyle]="{ 'background-color': Submitbtn }"  [disabled]="!userForm.valid"-->
+    <button type="submit" >Submit</button>
+
+  </div>
+ </form>
