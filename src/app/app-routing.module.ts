@@ -6,13 +6,14 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AboutComponent } from './components/about/about.component';
 import { AboutProjectComponent } from './components/about-project/about-project.component';
 import { AboutProjectSponsersComponent } from './components/about-sponsers/about-project-sponsers.component';
+import { AuthGuardGuard } from './guards/auth-guard.guard';
 
 const routes: Routes = [
   {
     path:"" ,redirectTo:"notes",pathMatch:'full'
   },
   {
-    path:"notes", title:"Notes",component:NotesComponent
+    path:"notes", title:"Notes",component:NotesComponent,canActivate:[AuthGuardGuard],
   },
   {
     path:"notes/:id" ,title:"Single Note",component:NoteComponent
@@ -28,6 +29,8 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  { path: 'analytics', loadChildren: () => import('./analytics/analytics.module').then(m => m.AnalyticsModule) },
   {
     path:"**" ,title:"404 - Page Not Found",component:NotfoundComponent
   },

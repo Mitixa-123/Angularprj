@@ -4,6 +4,7 @@ import { filter, Observable, ReplaySubject, Subject } from 'rxjs';
 import { posts } from './Interfaces/posts.interface';
 import { FormArray, FormBuilder,FormGroup,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,7 +30,12 @@ private observable = new Observable<string>((observer) => {
 //Reactive Form 
 userForm!:FormGroup;
 
-constructor(private messageService :MessageService,private formbuilder:FormBuilder,private route:Router){
+constructor(private messageService :MessageService,private formbuilder:FormBuilder,private route:Router,private TranslateService:TranslateService){
+  const userLang = navigator.language || 'en';
+  const LanguageCode = userLang.split('-')[0] // For language Format en-US
+  this.TranslateService.setDefaultLang(LanguageCode)
+  this.TranslateService.use(LanguageCode)
+  
   this.messages = messageService.getMessage();
   this.userForm = formbuilder.group({
     name:['',Validators.required],

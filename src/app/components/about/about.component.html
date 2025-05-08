@@ -3,6 +3,7 @@
 <nav>
     <ul>
         <li> <a routerLink="/about/project">Project</a></li>
+        <li> <a routerLink="/about/project" [queryParams]="{ProjectId:123}">Project With queryString</a></li>
 
         <li><a [routerLink]="['sponsers']">Sponsers</a></li>
 
